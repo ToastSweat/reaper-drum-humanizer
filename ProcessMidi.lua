@@ -160,7 +160,7 @@ local function logProcessedMidiData(midiNotesData, drumMap)
     end
 end
 
--- Set the script directory and load configuration files
+-- Set the script directory, load configuration files and apply Midi changes
 function Module.ProcessMidi(midiNotesData, drumMap, take)
     --logProcessedMidiData(midiNotesData, drumMap)
     

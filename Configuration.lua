@@ -25,7 +25,7 @@ Module.timingRandomRange = 2     -- Random variation for timing (-2 to 2)
 
 return Module 
 
--- Rseearch
+-- Research
 --[[
 60bpm       120bpm      200bpm
 

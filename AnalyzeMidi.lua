@@ -64,7 +64,7 @@ local function countNotes(noteCounts, pitch)
     noteCounts[pitch] = (noteCounts[pitch] or 0) + 1
 end
 
--- Log MIDI note data
+-- Log MIDI note distribution data
 local function logNoteCount(drumMap, noteCounts)
     -- Log the note distribution with drum names
     reaper.ShowConsoleMsg("\n  Note Distribution:\n")
