@@ -47,7 +47,7 @@ local function possibilityCheck(startTime)
 end
 
 -- Check for MIDI notes not on a STANDARD drum kit
-local function bannedNotesCheck(bannedNotes, pitch)
+local function bannedNotesCheck(bannedNotes, pitch, drumMap)
     -- Check if the pitch is in the banned notes list and the value is true
     if bannedNotes[pitch] == true then
         local drumName = drumMap[pitch] or "Unknown (" .. pitch .. ")"
@@ -178,7 +178,7 @@ local function limbValidation(midiNotes, drumMap)
 end
 
 -- Iterate through all midi data for analyzing and preprocessing
-local function iterateMidiData(notecnt, take, bannedNotes, noteCounts, limbAssignments)
+local function iterateMidiData(notecnt, take, bannedNotes, noteCounts, limbAssignments, drumMap)
     -- Iterate through all notes
     for i = 0, notecnt - 1 do
         local _, _, _, startPPQ, endPPQ, _, pitch, velocity = reaper.MIDI_GetNote(take, i)
@@ -189,7 +189,7 @@ local function iterateMidiData(notecnt, take, bannedNotes, noteCounts, limbAssig
         local length = endTime - startTime
 
         possibilityCheck(startTime)
-        bannedNotesCheck(bannedNotes, pitch)
+        bannedNotesCheck(bannedNotes, pitch, drumMap)
         countNotes(noteCounts, pitch)
         
         -- Assign a limb to the note
@@ -223,7 +223,7 @@ function Module.AnalyzeMidi(drumMap, bannedNotes, limbAssignments)
     local _, notecnt, _, _ = reaper.MIDI_CountEvts(take)
     --reaper.ShowConsoleMsg("  Total MIDI Notes: " .. notecnt .. "\n\n")
     
-    iterateMidiData(notecnt, take, bannedNotes, noteCounts, limbAssignments)
+    iterateMidiData(notecnt, take, bannedNotes, noteCounts, limbAssignments, drumMap)
     limbValidation(midiNotes, drumMap)
     --logMidiNoteData(midiNotes)
     logNoteCount(drumMap, noteCounts)
